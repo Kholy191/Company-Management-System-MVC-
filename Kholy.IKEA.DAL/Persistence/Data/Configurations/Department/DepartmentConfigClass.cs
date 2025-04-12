@@ -14,6 +14,7 @@ namespace Kholy.IKEA.DAL.Persistence.Data.Configurations.Department
     {
         public override void Configure(EntityTypeBuilder<Entites.Department.Department> builder)
         {
+            builder.Property(D => D.ID).UseIdentityColumn(10,10);
             base.Configure(builder);
         }
     }

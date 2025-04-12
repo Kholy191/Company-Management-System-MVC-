@@ -1,4 +1,7 @@
+using Kholy.IKEA.BLL.Services.Departments;
+using Kholy.IKEA.DAL.Contracts;
 using Kholy.IKEA.DAL.Persistence.Data;
+using Kholy.IKEA.DAL.Persistence.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,14 +16,21 @@ namespace Kholy.IKEA.PL
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>();
-            builder.Services.AddScoped<ApplicationDbContext>();
-            builder.Services.AddScoped<ApplicationDbContext>((serviceprovider) =>
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-                optionsBuilder.UseSqlServer("Server=.; Database=IKEA_MVC;Trusted_Connection=True;");
-                return new ApplicationDbContext(optionsBuilder.Options);
-            });
+
+            builder.Services.AddDbContext<ApplicationDbContext>((optionsBuilder) =>
+                optionsBuilder.UseSqlServer("Server=.; Database=IKEA_MVC;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;"
+));
+
+            //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>();
+            //builder.Services.AddScoped<ApplicationDbContext>((serviceprovider) =>
+            //{
+            //    var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+            //    optionsBuilder.UseSqlServer("Server=.; Database=IKEA_MVC;Trusted_Connection=True;");
+            //    return new ApplicationDbContext(optionsBuilder.Options);
+            //});
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IDepartmentServices, DepartmentService>();
 
             var app = builder.Build();
 

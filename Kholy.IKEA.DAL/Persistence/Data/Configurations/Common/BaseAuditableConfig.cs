@@ -19,7 +19,7 @@ namespace Kholy.IKEA.DAL.Persistence.Data.Configurations.Common
             builder.Property(D => D.CreatedBy).HasColumnType("varchar(50)");
             builder.Property(D => D.LastModifiedBy).HasColumnType("varchar(50)");
             builder.Property(D => D.CreatedOn).HasDefaultValueSql("GETUTCDate()");
-            builder.Property(D => D.CreatedOn).HasComputedColumnSql("GETUTCDate()");
+            builder.Property(D => D.LastModifiedOn).HasComputedColumnSql("GETUTCDate()");
 
         }
     }
