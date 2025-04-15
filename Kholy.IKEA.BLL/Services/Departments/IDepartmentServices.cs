@@ -8,7 +8,7 @@ using Kholy.IKEA.DAL.Entites.Department;
 
 namespace Kholy.IKEA.BLL.Services.Departments
 {
-    public interface IDepartmentServices
+    public interface IDepartmentServices 
     {
         public IEnumerable<DepartmentDto> GetDepartments();
         public DepartmentDetailsDTO? GetDepartmentDetails(int id);

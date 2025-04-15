@@ -4,15 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kholy.IKEA.DAL.Entites.Department;
+using Kholy.IKEA.DAL.Persistence.Repositories._Generic;
 
 namespace Kholy.IKEA.DAL.Contracts.Departments
 {
-    public interface IDepartmentRepositry
+    public interface IDepartmentRepositry : IGenericRepository<Department, int>
     {
-        IEnumerable<Department> GetAll(bool withTracking = false); //عشان محتاج تعمل عليها انيموريشن عليها بس
-        Department? Get(int id);
-        void Add(Department department);
-        void Update(Department department);
-        void Delete(int id);
+    
     }
 }

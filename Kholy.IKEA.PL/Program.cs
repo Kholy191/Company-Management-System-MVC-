@@ -1,4 +1,5 @@
 using Kholy.IKEA.BLL.Services.Departments;
+using Kholy.IKEA.BLL.Services.Employee;
 using Kholy.IKEA.DAL.Contracts;
 using Kholy.IKEA.DAL.Persistence.Data;
 using Kholy.IKEA.DAL.Persistence.UnitOfWork;
@@ -31,7 +32,7 @@ namespace Kholy.IKEA.PL
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDepartmentServices, DepartmentService>();
-
+            builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

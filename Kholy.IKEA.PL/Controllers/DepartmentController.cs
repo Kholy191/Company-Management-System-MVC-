@@ -28,7 +28,7 @@ namespace Kholy.IKEA.PL.Controllers
 
         #region Details
         [HttpGet]
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id, string ViewName = "Details")
         {
             if (id == null)
             {
@@ -42,7 +42,7 @@ namespace Kholy.IKEA.PL.Controllers
                 return NotFound(); //404
             }
 
-            return View(new DepartmentDetailsView
+            return View(ViewName, new DepartmentDetailsView
             {
                 Id = department.ID,
                 Name = department.Name,
@@ -171,6 +171,45 @@ namespace Kholy.IKEA.PL.Controllers
             }
             TempData["Message"] = Message;
             return RedirectToAction(nameof(Index));
+        }
+        #endregion
+
+        #region Delete
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            return RedirectToAction(nameof(Details), new { Id = id, ViewName = "Delete" });
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return BadRequest(); //400
+            }
+            var Message = string.Empty;
+            try
+            {
+                var deleted = _departmentServices.DeleteDepartment((int)id);
+                if (deleted)
+                {
+                    Message = "Deleted Succesfully";
+                }
+                else
+                {
+                    Message = "Department didn't been Deleted Succesfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex.StackTrace!.ToString());
+                Message = "Department didn't been Deleted Succesfully";
+            }
+            TempData["Message"] = Message;
+            return RedirectToAction(nameof(Index));
+
+
         }
         #endregion
     }

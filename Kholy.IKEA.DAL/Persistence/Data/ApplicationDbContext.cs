@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Kholy.IKEA.DAL.Entites.Department;
+using Kholy.IKEA.DAL.Entites.Employee;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace Kholy.IKEA.DAL.Persistence.Data
 {
@@ -23,5 +18,6 @@ namespace Kholy.IKEA.DAL.Persistence.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<Department> departments { get; set; }
+        public DbSet<Employee> employees { get; set; }
     }
 }

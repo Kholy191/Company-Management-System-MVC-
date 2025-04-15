@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kholy.IKEA.BLL.Models.Departments
 {
-    public record  DepartmentDto
+    public record DepartmentDto
     {
 
         public int ID { get; set; }
