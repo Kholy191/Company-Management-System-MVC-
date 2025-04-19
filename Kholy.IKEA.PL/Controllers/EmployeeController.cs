@@ -43,6 +43,7 @@ namespace Kholy.IKEA.PL.Controllers
             {
                 return View(ViewName, new EmployeeDetailsViewModel()
                 {
+                    Id = employee.ID,
                     Name = employee.Name,
                     Salary = employee.Salary,
                     Email = employee.Email,
@@ -73,20 +74,22 @@ namespace Kholy.IKEA.PL.Controllers
         [HttpPost]
         public IActionResult Create(CreateEmployeeViewModel _Employee)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return View(_Employee);
             }
             var Message = string.Empty;
             try
             {
                 EmpType empType;
                 Gender Gender;
-
-                if (Enum.TryParse(_Employee.EmployeeType, out empType)) ;
+                if (Enum.TryParse(_Employee.EmployeeType, out empType))
+                {
+                    var Ahmed = 0;
+                } 
                 else
                 {
-                    throw new ArgumentException("Invalid Employee Type");
+                    empType = EmpType.FullTime;
                 }
 
                 if (Enum.TryParse(_Employee.gender, out Gender)) ;
@@ -140,6 +143,7 @@ namespace Kholy.IKEA.PL.Controllers
             TempData["Id"] = id;
             return View(new EmployeeUpdateViewModel()
             {
+                Id = _employee.ID,
                 Name = _employee.Name,
                 Salary = _employee.Salary,
                 Email = _employee.Email,
@@ -171,7 +175,7 @@ namespace Kholy.IKEA.PL.Controllers
             {
                 EmpType empType;
                 Gender Gender;
-                if (Enum.TryParse(_Employee.EmployeeType, out empType)) ;
+                if (Enum.TryParse(_Employee.EmployeeType, out empType));
                 else
                 {
                     throw new ArgumentException("Invalid Employee Type");
@@ -185,6 +189,7 @@ namespace Kholy.IKEA.PL.Controllers
 
                 _employeeServices.UpdateEmployee(new UpdateEmployeeDTO()
                 {
+                    ID = Id,
                     Name = _Employee.Name,
                     Salary = _Employee.Salary,
                     Email = _Employee.Email,

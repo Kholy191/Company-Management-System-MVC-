@@ -1,5 +1,5 @@
 ﻿@using Kholy.IKEA.PL.ViewModels.Employee
-
+@using Kholy.IKEA.DAL.Common.Enums
 @model EmployeeUpdateViewModel
 @{
 	ViewData["Title"] = "Update Employee";
@@ -25,7 +25,7 @@
 	</div>
 	<div class="form-group mb-3">
 		<label class="form-label" asp-for="Email"></label>
-		<input type="date" asp-for="Email" class="form-control" />
+		<input type="text" asp-for="Email" class="form-control" />
 	</div>
 
 	<div class="form-group mb-3">
@@ -37,21 +37,33 @@
 		<textarea asp-for="Address" class="form-control"></textarea>
 	</div>
 	<div class="form-group mb-3">
-		<label class="form-label" asp-for="IsActive"></label>
-		<textarea asp-for="IsActive" class="form-control"></textarea>
+		<div class="form-check">
+			<input asp-for="IsActive" class="form-check-input" />
+			<label asp-for="IsActive" class="form-check-label"></label>
+		</div>
+		<span asp-validation-for="IsActive" class="text-danger"></span>
 	</div>
+
 
 	<div class="form-group mb-3">
 		<label class="form-label" asp-for="HiringDate"></label>
 		<input type="date" asp-for="HiringDate" class="form-control" />
 	</div>
-	<div class="form-group mb-3">
-		<label class="form-label" asp-for="gender"></label>
-		<textarea asp-for="gender" class="form-control"></textarea>
+	<div class="form-group">
+		<label class="control-label" asp-for="gender"></label><br />
+		@foreach (Gender genderOption in Enum.GetValues(typeof(Gender)))
+		{
+			<label class="radio-inline">
+				<input type="radio" asp-for="gender" value="@genderOption" />
+				@genderOption
+			</label>
+		}
 	</div>
-	<div class="form-group mb-3">
-		<label class="form-label" asp-for="EmployeeType"></label>
-		<textarea asp-for="EmployeeType" class="form-control"></textarea>
+	<div class="form-group">
+		<label asp-for="EmployeeType" class="control-label"></label>
+		<select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmpType>()" class="form-control">
+			<option value="">Select Employee Type</option>
+		</select>
 	</div>
 
 	<div class="mt-3">

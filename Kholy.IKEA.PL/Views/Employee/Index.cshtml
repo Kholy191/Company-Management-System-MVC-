@@ -6,16 +6,16 @@
 }
 
 <h1>All Employees</h1>
-	<br />
-	<br />
+<br />
+<br />
 
-	<a asp-controller="Employee" asp-action="Create" class="btn btn-primary">
+<a asp-controller="Employee" asp-action="Create" class="btn btn-primary">
 	Create new Employee
-	</a>
+</a>
 
 
-	<br />
-	<br />
+<br />
+<br />
 
 @if (Model?.Any() ?? false)
 {
@@ -37,19 +37,21 @@
 			@foreach (var Employee in Model)
 			{
 				<tr>
-					<td>@Employee.Name</td>
-					<td>@Employee.Salary</td>
-					<td>@Employee.IsActive</td>
-					<td>@Employee.EmployeeType</td>
-					<td>
+					<td>@Html.DisplayFor(X => Employee.Name)</td>
+					<td>@Html.DisplayFor(X => Employee.Salary)</td>
+					<td>@Html.DisplayFor(X => Employee.IsActive) </td>
+					<td>@Html.DisplayFor(X => Employee.EmployeeType) </td>
+					<td >
 						<a asp-controller="Employee" asp-action="Details" asp-route-id="@Employee.Id" class="btn btn-warning">
 							<i class="fas fa-eye"></i>Details
 						</a>
-
+					</td>
+					<td>
 						<a asp-controller="Employee" asp-action="Edit" asp-route-id="@Employee.Id" class="btn btn-success">
 							<i class="fas fa-edit"></i>Update
 						</a>
-
+					</td>
+					<td>
 						<a asp-controller="Employee" asp-action="Delete" asp-route-id="@Employee.Id" class="btn btn-danger">
 							<i class="fas fa-trash"></i>Delete
 						</a>
@@ -65,4 +67,6 @@ else
 		<p>There is No Employee</p>
 	</div>
 }
+
+
 

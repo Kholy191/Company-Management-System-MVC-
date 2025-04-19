@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
 {
-    public class GenericRepository<T, k> : IGenericRepository<T, k> where T : BaseEntity<k> where k : IEquatable<k>
+    public class GenericRepository<T, K> : IGenericRepository<T, K> where T : BaseEntity<K> where K : IEquatable<K>
     {
         private protected ApplicationDbContext _DbContext;
 
@@ -12,7 +12,7 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
         {
             _DbContext = context;
         }
-        public T? Get(k id, bool withTracking = false)
+        public T? Get(K id, bool withTracking = false)
         {
             if (withTracking)
             {
@@ -46,9 +46,9 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
             _DbContext.Set<T>().Add(entity);
         }
 
-        public void Delete(k id)
+        public void Delete(K? id)
         {
-            var _entity = _DbContext.Set<T>().Find(id);
+            var _entity = Get(id!);
             if (_entity != null)
             {
                 _DbContext.Set<T>().Remove(_entity);

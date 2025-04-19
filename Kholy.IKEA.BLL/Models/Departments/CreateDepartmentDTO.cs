@@ -12,5 +12,7 @@ namespace Kholy.IKEA.BLL.Models.Departments
         public required string Code { get; set; }
         public string? Description { get; set; }
         public DateOnly CreationDate { get; set; }
+
+        
     }
 }

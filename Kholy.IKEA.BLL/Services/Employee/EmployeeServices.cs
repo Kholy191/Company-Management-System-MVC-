@@ -37,15 +37,18 @@ namespace Kholy.IKEA.BLL.Services.Employee
                 IsActive = employee.IsActive,
                 CreatedBy = "Admin",
                 LastModifiedBy = "Admin",
+                gender = employee.gender,
+                EmployeeType = employee.EmployeeType,
 
             });
             return _unitOfWork.Complete();
         }
 
-        public bool DeleteEmployee(int id)
+        public bool DeleteEmployee(int Id)
         {
-            _unitOfWork.employeeRepository.Delete(id);
-            return _unitOfWork.Complete() > 0;
+            _unitOfWork.employeeRepository.Delete(Id);
+            var deleted = _unitOfWork.Complete() > 0;
+            return deleted;
         }
 
         public IEnumerable<EmployeeDto> GetEmployees()
