@@ -9,7 +9,7 @@ namespace Kholy.IKEA.BLL.Services.Employee
 {
     public interface IEmployeeServices
     {
-        public IEnumerable<EmployeeDto> GetEmployees();
+        public IQueryable<EmployeeDto> GetEmployees();
         public EmployeeDetailsDTO? GetEmployeeDetails(int id);
         int CreateEmployee(CreateEmployeeDTO employee);
         int UpdateEmployee(UpdateEmployeeDTO employee);

@@ -12,19 +12,35 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
         {
             _DbContext = context;
         }
-        public T? Get(K id, bool withTracking = false)
+
+        public IEnumerable<T> GetEnumerable ()
         {
-            if (withTracking)
+            return _DbContext.Set<T>();
+        }
+
+        public IQueryable<T> GetQueryable()
+        {
+            return _DbContext.Set<T>();
+        }
+        public T? Get(K? id, bool withTracking = false)
+        {
+            if (id != null)
             {
-                var Entity = _DbContext.Set<T>().Find(id);
-                return Entity;
+                if (withTracking)
+                {
+                    var Entity = _DbContext.Set<T>().Find(id);
+                    return Entity;
+                }
+                else
+                {
+                    var Entity = _DbContext.Set<T>().AsNoTracking().FirstOrDefault(E => E.ID.Equals(id));
+                    return Entity;
+                }
             }
             else
             {
-                var Entity = _DbContext.Set<T>().AsNoTracking().FirstOrDefault(E => E.ID.Equals(id));
-                return Entity;
-            }
-
+                return null;
+            };
             //var Entity = _DbContext.departments.Local.FirstOrDefault(D => D.ID == id);
             //if (Entity == null)
             //{

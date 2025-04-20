@@ -1,6 +1,8 @@
 ﻿using Kholy.IKEA.BLL.Models.Departments;
+using Kholy.IKEA.BLL.Services.Departments;
 using Kholy.IKEA.BLL.Services.Employee;
 using Kholy.IKEA.DAL.Common.Enums;
+using Kholy.IKEA.DAL.Entites.Department;
 using Kholy.IKEA.PL.ViewModels.Department;
 using Kholy.IKEA.PL.ViewModels.Employee;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +26,7 @@ namespace Kholy.IKEA.PL.Controllers
         {
             var _Employees = _employeeServices.GetEmployees();
             return View(_Employees.Select(E => new EmployeeViewModel()
-            { Name = E.Name, Salary = E.Salary, EmployeeType = E.EmployeeType, IsActive = E.IsActive, Id = E.ID}));
+            { Name = E.Name, Salary = E.Salary, EmployeeType = E.EmployeeType, IsActive = E.IsActive, Id = E.ID }));
         }
 
         #endregion
@@ -32,18 +34,22 @@ namespace Kholy.IKEA.PL.Controllers
         #region Get Employee Details
 
         [HttpGet]
-        public IActionResult Details(int? Id, string ViewName = "Details")
+        public IActionResult Details([FromServices] IDepartmentServices _departmentServices, int? Id, string ViewName = "Details")
         {
             if (Id == null)
             {
                 return BadRequest();
             }
             var employee = _employeeServices.GetEmployeeDetails((int)Id);
+
+
             if (employee != null)
             {
+                //var Dep = _departmentServices.GetDepartmentDetails(employee.DepartmentId);
                 return View(ViewName, new EmployeeDetailsViewModel()
                 {
                     Id = employee.ID,
+                    Age = employee.Age,
                     Name = employee.Name,
                     Salary = employee.Salary,
                     Email = employee.Email,
@@ -52,7 +58,9 @@ namespace Kholy.IKEA.PL.Controllers
                     IsActive = employee.IsActive,
                     HiringDate = employee.HiringDate,
                     gender = employee.gender,
-                    EmployeeType = employee.EmployeeType
+                    EmployeeType = employee.EmployeeType,
+                    Department = employee.Department?.Name
+
                 });
             }
             else
@@ -66,12 +74,15 @@ namespace Kholy.IKEA.PL.Controllers
         #region Create Employee
 
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create([FromServices] IDepartmentServices _departmentServices)
         {
+            var Departments = _departmentServices.GetDepartments();
+            ViewData["Departments"] = Departments;
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreateEmployeeViewModel _Employee)
         {
             if (!ModelState.IsValid)
@@ -83,10 +94,7 @@ namespace Kholy.IKEA.PL.Controllers
             {
                 EmpType empType;
                 Gender Gender;
-                if (Enum.TryParse(_Employee.EmployeeType, out empType))
-                {
-                    var Ahmed = 0;
-                } 
+                if (Enum.TryParse(_Employee.EmployeeType, out empType)) ;
                 else
                 {
                     empType = EmpType.FullTime;
@@ -109,18 +117,27 @@ namespace Kholy.IKEA.PL.Controllers
                     Age = _Employee.Age,
                     EmployeeType = empType,
                     gender = Gender,
-                    HiringDate = _Employee.HiringDate
+                    HiringDate = _Employee.HiringDate,
+                    DepartmentId = _Employee.DepartmentId,
                 };
 
                 var result = _employeeServices.CreateEmployee(_employee);
 
-                Message = result > 0 ? "Employee Created Successfully" : "Failed to Create Employee";
+                if (result > 0)
+                {
+                    Message = "Employee Created Successfully";
+                }
+                else
+                {
+                    Message = "Failed to Create Employee";
+                }
             }
             catch (Exception ex)
             {
                 Message = "Failed to Create Employee";
                 _logger.LogError(ex.Message, ex.StackTrace!.ToString());
             }
+            TempData["Message"] = Message;
             return RedirectToAction("Index");
         }
 
@@ -129,7 +146,7 @@ namespace Kholy.IKEA.PL.Controllers
         #region Update Employee
 
         [HttpGet]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int? id,[FromServices] IDepartmentServices _departmentServices)
         {
             if (id == null)
             {
@@ -140,6 +157,8 @@ namespace Kholy.IKEA.PL.Controllers
             {
                 return NotFound(); //404
             }
+            var Departments = _departmentServices.GetDepartments();
+            ViewData["Departments"] = Departments;
             TempData["Id"] = id;
             return View(new EmployeeUpdateViewModel()
             {
@@ -152,17 +171,19 @@ namespace Kholy.IKEA.PL.Controllers
                 IsActive = _employee.IsActive,
                 Age = _employee.Age,
                 gender = _employee.gender,
-                EmployeeType = _employee.EmployeeType,
-                HiringDate = _employee.HiringDate
+                EmployeeType = (EmpType)Enum.Parse(typeof(EmpType), _employee.EmployeeType),
+                HiringDate = _employee.HiringDate,
+                DepartmentId = _employee.Department?.ID,
             });
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int Id, EmployeeUpdateViewModel _Employee)
         {
             if (!ModelState.IsValid)
             {
-                return View(Id);
+                return View(_Employee);
             }
 
             if (TempData["Id"] as int? != Id)
@@ -175,11 +196,11 @@ namespace Kholy.IKEA.PL.Controllers
             {
                 EmpType empType;
                 Gender Gender;
-                if (Enum.TryParse(_Employee.EmployeeType, out empType));
-                else
-                {
-                    throw new ArgumentException("Invalid Employee Type");
-                }
+                //if (Enum.TryParse(_Employee.EmployeeType, out empType));
+                //else
+                //{
+                //    throw new ArgumentException("Invalid Employee Type");
+                //}
 
                 if (Enum.TryParse(_Employee.gender, out Gender)) ;
                 else
@@ -197,9 +218,10 @@ namespace Kholy.IKEA.PL.Controllers
                     Address = _Employee.Address,
                     IsActive = _Employee.IsActive,
                     Age = _Employee.Age,
-                    EmployeeType = empType,
+                    EmployeeType = _Employee.EmployeeType,
                     gender = Gender,
-                    HiringDate = _Employee.HiringDate
+                    HiringDate = _Employee.HiringDate,
+                    DepartmentId = _Employee.DepartmentId,
                 });
                 Message = "Employee Updated Successfully";
             }
@@ -223,13 +245,13 @@ namespace Kholy.IKEA.PL.Controllers
         }
 
         [HttpPost]
-        
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int? Id)
         {
             if (Id == null)
             {
-                return BadRequest(); 
-            } 
+                return BadRequest();
+            }
 
             var Message = string.Empty;
             try

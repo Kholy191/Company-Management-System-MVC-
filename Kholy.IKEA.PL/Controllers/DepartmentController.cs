@@ -66,6 +66,7 @@ namespace Kholy.IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(DepartmentCreateViewModel department)
         {
             if (!ModelState.IsValid) //Server Side Validation
@@ -130,6 +131,7 @@ namespace Kholy.IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(int Id, UpdateDepartmentViewModel department)
         {
             if (!ModelState.IsValid) //Server Side Validation
@@ -182,6 +184,7 @@ namespace Kholy.IKEA.PL.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Delete(int? id)
         {
             if (id == null)

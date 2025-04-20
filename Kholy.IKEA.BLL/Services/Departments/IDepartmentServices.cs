@@ -11,7 +11,7 @@ namespace Kholy.IKEA.BLL.Services.Departments
     public interface IDepartmentServices 
     {
         public IEnumerable<DepartmentDto> GetDepartments();
-        public DepartmentDetailsDTO? GetDepartmentDetails(int id);
+        public DepartmentDetailsDTO? GetDepartmentDetails(int? id);
         int CreateDepartment(CreateDepartmentDTO department);
         int UpdateDepartment(UpdateDepartmentDTO department);
         bool DeleteDepartment(int id);

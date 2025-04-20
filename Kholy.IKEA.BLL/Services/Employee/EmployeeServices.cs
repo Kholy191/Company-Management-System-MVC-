@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
 using Kholy.IKEA.BLL.Models.Departments;
 using Kholy.IKEA.DAL.Common.Enums;
 using Kholy.IKEA.DAL.Contracts;
+using Kholy.IKEA.DAL.Entites.Department;
 using Kholy.IKEA.DAL.Entites.Employee;
 
 
@@ -39,6 +41,7 @@ namespace Kholy.IKEA.BLL.Services.Employee
                 LastModifiedBy = "Admin",
                 gender = employee.gender,
                 EmployeeType = employee.EmployeeType,
+                DepartmentID = employee.DepartmentId,
 
             });
             return _unitOfWork.Complete();
@@ -51,23 +54,35 @@ namespace Kholy.IKEA.BLL.Services.Employee
             return deleted;
         }
 
-        public IEnumerable<EmployeeDto> GetEmployees()
+        public IQueryable<EmployeeDto> GetEmployees()
         {
-            var Employees = _unitOfWork.employeeRepository.GetAll();
-            foreach (var employee in Employees)
+            var Employees = _unitOfWork.employeeRepository.GetQueryable().Select(employee => new EmployeeDto
             {
-                yield return new EmployeeDto
-                {
-                    Name = employee.Name,
-                    ID = employee.ID,
-                    Age = employee.Age,
-                    Salary = employee.Salary,
-                    Email = employee.Email,
-                    IsActive = employee.IsActive,
-                    EmployeeType = employee.EmployeeType.ToString(),
-                    gender = employee.gender.ToString(),
-                };
-            }
+                Name = employee.Name,
+                ID = employee.ID,
+                Age = employee.Age,
+                Salary = employee.Salary,
+                Email = employee.Email,
+                IsActive = employee.IsActive,
+                EmployeeType = employee.EmployeeType.ToString(),
+                gender = employee.gender.ToString(),
+                DepartmentId = employee.DepartmentID,
+            });
+            return Employees;
+            //foreach (var employee in Employees)
+            //{
+            //    yield return new EmployeeDto
+            //    {
+            //        Name = employee.Name,
+            //        ID = employee.ID,
+            //        Age = employee.Age,
+            //        Salary = employee.Salary,
+            //        Email = employee.Email,
+            //        IsActive = employee.IsActive,
+            //        EmployeeType = employee.EmployeeType.ToString(),
+            //        gender = employee.gender.ToString(),
+            //    };
+            //}
         }
 
         public EmployeeDetailsDTO? GetEmployeeDetails(int id)
@@ -77,6 +92,7 @@ namespace Kholy.IKEA.BLL.Services.Employee
             {
                 return null;
             }
+
             return new EmployeeDetailsDTO()
             {
                 ID = employee.ID,
@@ -89,7 +105,8 @@ namespace Kholy.IKEA.BLL.Services.Employee
                 IsActive = employee.IsActive,
                 HiringDate = employee.HiringDate,
                 EmployeeType = employee.EmployeeType.ToString(),
-                gender = employee.gender.ToString()
+                gender = employee.gender.ToString(),
+                Department = employee.Department,
             };
 
         }
@@ -115,7 +132,8 @@ namespace Kholy.IKEA.BLL.Services.Employee
                         EmployeeType = _employee.EmployeeType,
                         ID = _employee.ID,
                         LastModifiedBy = "Admin",
-                        CreatedBy = "Admin"
+                        CreatedBy = "Admin",
+                        DepartmentID = _employee.DepartmentId
 
                     });
                     return _unitOfWork.Complete();

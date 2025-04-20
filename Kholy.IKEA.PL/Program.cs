@@ -19,7 +19,7 @@ namespace Kholy.IKEA.PL
 
 
             builder.Services.AddDbContext<ApplicationDbContext>((optionsBuilder) =>
-                optionsBuilder.UseSqlServer("Server=.; Database=IKEA_MVC;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;"
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer("Server=.; Database=IKEA_MVC;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;"
 ));
 
             //builder.Services.AddScoped<DbContextOptions<ApplicationDbContext>>();

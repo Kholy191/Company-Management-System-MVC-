@@ -22,6 +22,8 @@ namespace Kholy.IKEA.DAL.Entites.Employee
         public DateOnly HiringDate { get; set; }
         public Gender gender { get; set; }
         public EmpType EmployeeType { get; set; }
+        public virtual Department.Department? Department { get; set; }
+        public int? DepartmentID { get; set; }
 
     }
 }

@@ -1,27 +1,9 @@
-﻿@using Kholy.IKEA.PL.ViewModels.Employee
+﻿@using Kholy.IKEA.BLL.Models.Departments
+@using Kholy.IKEA.PL.ViewModels.Employee
 @using Kholy.IKEA.DAL.Common.Enums
 @model CreateEmployeeViewModel
 @{
 	ViewData["Title"] = "Create";
-}
-
-@if (!(TempData["Message"] != null))
-{
-
-	<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-		<div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-			<div class="toast-header">
-				<img src="..." class="rounded me-2" alt="...">
-				<strong class="me-auto">IKEA</strong>
-				@* <small>@DateTime.Now.Minute mins ago</small> *@
-				<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-			</div>
-			<div class="toast-body">
-				@TempData["Message"]
-			</div>
-		</div>
-	</div>
-
 }
 
 <h1>Create New Employee</h1>
@@ -85,8 +67,20 @@
 		</select>
 	</div>
 
+	<div class="form-group">
+		<label asp-for="DepartmentId" class="control-label"></label>
+		<select asp-for="DepartmentId" asp-items="@(new SelectList(ViewData["Departments"] as IEnumerable<DepartmentDto>, "ID", "Name"))" class="form-control">
+			<option value="@null">Select Department</option>
+		</select>
+	</div>
+
 	<div class="mt-3">
 		<input type="submit" value="Create" class="btn btn-primary" /> |
 		<a asp-action="Index" class="btn btn-light">Cancel</a>
 	</div>
 </form>
+
+@section ValidationScripts {
+	<partial name="ValidationPartial" />
+}
+

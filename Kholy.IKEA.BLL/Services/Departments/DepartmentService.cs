@@ -21,9 +21,14 @@ namespace Kholy.IKEA.BLL.Services.Departments
 
         #region Methods
 
-        public DepartmentDetailsDTO? GetDepartmentDetails(int id)
+        public DepartmentDetailsDTO? GetDepartmentDetails(int? id)
         {
-            var department = _unitOfWork.DepartmentRepositry.Get(id);
+            if (id == null)
+            {
+                return null;
+            }
+
+            var department = _unitOfWork.DepartmentRepositry.Get((int) id);
 
             if (department == null)
             {

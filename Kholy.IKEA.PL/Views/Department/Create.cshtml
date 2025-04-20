@@ -4,24 +4,6 @@
 	ViewData["Title"] = "Create";
 }
 
-@if (!(TempData["Message"] != null))
-{
-
-		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-			<div id="liveToast" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-				<div class="toast-header">
-					<img src="..." class="rounded me-2" alt="...">
-					<strong class="me-auto">IKEA</strong>
-					@* <small>@DateTime.Now.Minute mins ago</small> *@
-					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-				</div>
-				<div class="toast-body">
-					@TempData["Message"]
-				</div>
-			</div>
-		</div>
-
-}
 
 <h1>Create New Department</h1>
 
@@ -50,3 +32,8 @@
 		<a asp-action="Index" class="btn btn-light">Cancel</a>
 	</div>
 </form>
+
+
+@section ValidationScripts{
+	<partial name="ValidationPartial" />
+}

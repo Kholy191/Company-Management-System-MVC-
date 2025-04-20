@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kholy.IKEA.DAL.Common.Enums;
+using Kholy.IKEA.DAL.Entites.Department;
 
 namespace Kholy.IKEA.BLL.Models.Departments
 {
@@ -31,7 +32,8 @@ namespace Kholy.IKEA.BLL.Models.Departments
         public bool IsActive { get; set; }
         [Display(Name = "Hiring Date")]
         public DateOnly HiringDate { get; set; }
-        public string gender { get; set; }
-        public string EmployeeType { get; set; }
+        public required string gender { get; set; }
+        public required string EmployeeType { get; set; }
+        public Department? Department { get; set; }
     }
 }

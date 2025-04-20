@@ -17,5 +17,6 @@ namespace Kholy.IKEA.BLL.Models.Departments
         public bool IsActive { get; set; }
         public string gender { get; set; }
         public string EmployeeType { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

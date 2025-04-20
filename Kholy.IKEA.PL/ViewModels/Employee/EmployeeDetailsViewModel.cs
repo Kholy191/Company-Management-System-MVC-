@@ -1,4 +1,5 @@
-﻿using Kholy.IKEA.DAL.Common.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using Kholy.IKEA.DAL.Common.Enums;
 
 namespace Kholy.IKEA.PL.ViewModels.Employee
 {
@@ -15,5 +16,7 @@ namespace Kholy.IKEA.PL.ViewModels.Employee
         public DateOnly HiringDate { get; set; }
         public string gender { get; set; }
         public string EmployeeType { get; set; }
+        [Display(Name = "Department")]
+        public string? Department { get; set; }
     }
 }

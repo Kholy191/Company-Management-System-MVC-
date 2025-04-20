@@ -16,6 +16,11 @@ namespace Kholy.IKEA.DAL.Persistence.Data.Configurations.Department
         {
             builder.Property(D => D.ID).UseIdentityColumn(10,10);
             base.Configure(builder);
+
+            builder.HasMany(D => D.Employees)
+                    .WithOne(E => E.Department)
+                    .HasForeignKey(E => E.DepartmentID)
+                    .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

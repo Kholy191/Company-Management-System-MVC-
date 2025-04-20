@@ -13,5 +13,6 @@ namespace Kholy.IKEA.DAL.Entites.Department
         public required string Code { get; set; }
         public string? Description { get; set; }
         public DateOnly CreationDate { get; set; }
+        public virtual ICollection<Employee.Employee> Employees {  get; set; } = new HashSet<Employee.Employee>();
     }
 }
