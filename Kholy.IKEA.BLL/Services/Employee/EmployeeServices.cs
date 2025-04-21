@@ -54,9 +54,10 @@ namespace Kholy.IKEA.BLL.Services.Employee
             return deleted;
         }
 
-        public IQueryable<EmployeeDto> GetEmployees()
+        public IQueryable<EmployeeDto> GetEmployees(string? search)
         {
-            var Employees = _unitOfWork.employeeRepository.GetQueryable().Select(employee => new EmployeeDto
+
+            var Employees = _unitOfWork.employeeRepository.GetQueryable().Where(D => string.IsNullOrEmpty(search) || (D.Name.Contains(search))).Select(employee => new EmployeeDto
             {
                 Name = employee.Name,
                 ID = employee.ID,
@@ -69,6 +70,7 @@ namespace Kholy.IKEA.BLL.Services.Employee
                 DepartmentId = employee.DepartmentID,
             });
             return Employees;
+
             //foreach (var employee in Employees)
             //{
             //    yield return new EmployeeDto

@@ -22,9 +22,9 @@ namespace Kholy.IKEA.PL.Controllers
 
         #region Index
 
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
-            var _Employees = _employeeServices.GetEmployees();
+            var _Employees = _employeeServices.GetEmployees(search);
             return View(_Employees.Select(E => new EmployeeViewModel()
             { Name = E.Name, Salary = E.Salary, EmployeeType = E.EmployeeType, IsActive = E.IsActive, Id = E.ID }));
         }

@@ -1,4 +1,5 @@
-﻿using Kholy.IKEA.BLL.Models.Departments;
+﻿using AutoMapper;
+using Kholy.IKEA.BLL.Models.Departments;
 using Kholy.IKEA.BLL.Services.Departments;
 using Kholy.IKEA.PL.ViewModels.Department;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,13 @@ namespace Kholy.IKEA.PL.Controllers
     {
         private readonly ILogger<DepartmentController> _logger;
         private readonly IDepartmentServices _departmentServices;
-        public DepartmentController(ILogger<DepartmentController> logger, [FromServices] IDepartmentServices departmentService)
+        private readonly IMapper mapper;
+        public DepartmentController(ILogger<DepartmentController> logger, 
+            [FromServices] IDepartmentServices departmentService, IMapper _mapper)
         {
             _departmentServices = departmentService;
             _logger = logger;
+            _mapper = mapper;
         }
 
         #region Index
