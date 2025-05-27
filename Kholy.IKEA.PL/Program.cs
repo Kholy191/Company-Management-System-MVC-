@@ -1,9 +1,12 @@
+using Kholy.IKEA.BLL.Common.Services.Attachments;
 using Kholy.IKEA.BLL.Services.Departments;
 using Kholy.IKEA.BLL.Services.Employee;
 using Kholy.IKEA.DAL.Contracts;
+using Kholy.IKEA.DAL.Entites.Identity;
 using Kholy.IKEA.DAL.Persistence.Data;
 using Kholy.IKEA.DAL.Persistence.UnitOfWork;
 using Kholy.IKEA.PL.Controllers.Mappping;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,11 +34,13 @@ namespace Kholy.IKEA.PL
             //    return new ApplicationDbContext(optionsBuilder.Options);
             //});
 
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IDepartmentServices, DepartmentService>();
             builder.Services.AddScoped<IEmployeeServices, EmployeeServices>();
+            builder.Services.AddTransient<IAttachmentService, AttachmentService>();
             builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfile()));
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

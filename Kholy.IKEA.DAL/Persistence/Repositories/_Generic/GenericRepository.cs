@@ -13,7 +13,7 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
             _DbContext = context;
         }
 
-        public IEnumerable<T> GetEnumerable ()
+        public IEnumerable<T> GetEnumerable()
         {
             return _DbContext.Set<T>();
         }
@@ -40,7 +40,8 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
             else
             {
                 return null;
-            };
+            }
+            ;
             //var Entity = _DbContext.departments.Local.FirstOrDefault(D => D.ID == id);
             //if (Entity == null)
             //{
@@ -52,9 +53,9 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
         {
             if (!withTracking)
             {
-                return _DbContext.Set<T>().AsNoTracking();
+                return _DbContext.Set<T>().AsNoTracking().ToList();
             }
-            return _DbContext.Set<T>().AsTracking();
+            return _DbContext.Set<T>().AsTracking().ToList();
         }
 
         public void Add(T entity)
@@ -65,7 +66,7 @@ namespace Kholy.IKEA.DAL.Persistence.Repositories._Generic
         public void Delete(K? id)
         {
             var _entity = Get(id!);
-            if (_entity != null)
+            if (_entity != (null))
             {
                 _DbContext.Set<T>().Remove(_entity);
             }

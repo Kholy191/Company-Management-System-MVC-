@@ -3,6 +3,7 @@ using Kholy.IKEA.BLL.Services.Departments;
 using Kholy.IKEA.BLL.Services.Employee;
 using Kholy.IKEA.DAL.Common.Enums;
 using Kholy.IKEA.DAL.Entites.Department;
+using Kholy.IKEA.DAL.Entites.Employee;
 using Kholy.IKEA.PL.ViewModels.Department;
 using Kholy.IKEA.PL.ViewModels.Employee;
 using Microsoft.AspNetCore.Mvc;
@@ -59,8 +60,8 @@ namespace Kholy.IKEA.PL.Controllers
                     HiringDate = employee.HiringDate,
                     gender = employee.gender,
                     EmployeeType = employee.EmployeeType,
-                    Department = employee.Department?.Name
-
+                    Department = employee.Department?.Name,
+                    Image = employee.Image,
                 });
             }
             else
@@ -77,9 +78,9 @@ namespace Kholy.IKEA.PL.Controllers
         public IActionResult Create([FromServices] IDepartmentServices _departmentServices)
         {
             var Departments = _departmentServices.GetDepartments();
-            ViewData["Departments"] = Departments;
+            ViewData[index: "Departments"] = Departments;
             return View();
-        }
+         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -119,6 +120,7 @@ namespace Kholy.IKEA.PL.Controllers
                     gender = Gender,
                     HiringDate = _Employee.HiringDate,
                     DepartmentId = _Employee.DepartmentId,
+                    Image = _Employee.Image,
                 };
 
                 var result = _employeeServices.CreateEmployee(_employee);
@@ -160,6 +162,7 @@ namespace Kholy.IKEA.PL.Controllers
             var Departments = _departmentServices.GetDepartments();
             ViewData["Departments"] = Departments;
             TempData["Id"] = id;
+            TempData["Image"] = _employee.Image;
             return View(new EmployeeUpdateViewModel()
             {
                 Id = _employee.ID,
@@ -174,6 +177,7 @@ namespace Kholy.IKEA.PL.Controllers
                 EmployeeType = (EmpType)Enum.Parse(typeof(EmpType), _employee.EmployeeType),
                 HiringDate = _employee.HiringDate,
                 DepartmentId = _employee.Department?.ID,
+                Image = _employee.Image,
             });
         }
 
@@ -222,6 +226,7 @@ namespace Kholy.IKEA.PL.Controllers
                     gender = Gender,
                     HiringDate = _Employee.HiringDate,
                     DepartmentId = _Employee.DepartmentId,
+                    Image = TempData["Image"] as string
                 });
                 Message = "Employee Updated Successfully";
             }

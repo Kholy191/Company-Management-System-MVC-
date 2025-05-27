@@ -18,5 +18,6 @@ namespace Kholy.IKEA.PL.ViewModels.Employee
         public string EmployeeType { get; set; }
         [Display(Name = "Department")]
         public string? Department { get; set; }
+        public string? Image { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Kholy.IKEA.DAL.Common.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace Kholy.IKEA.BLL.Models.Departments
 {
@@ -32,5 +33,6 @@ namespace Kholy.IKEA.BLL.Models.Departments
         public Gender gender { get; set; }
         public EmpType EmployeeType { get; set; }
         public int? DepartmentId { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

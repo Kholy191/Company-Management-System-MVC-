@@ -24,6 +24,8 @@ namespace Kholy.IKEA.DAL.Entites.Employee
         public EmpType EmployeeType { get; set; }
         public virtual Department.Department? Department { get; set; }
         public int? DepartmentID { get; set; }
+        
+        public string? Image { get; set; }
 
     }
 }

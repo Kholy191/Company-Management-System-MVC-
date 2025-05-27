@@ -1,0 +1,35 @@
+﻿@using Kholy.IKEA.PL.ViewModels.Account
+@model SignInModelView
+
+@{
+    ViewData["Title"] = "SignIn";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<div class="main-agileinfo">
+	<div class="agileits-top">
+		<form asp-action="SignIn">
+
+			<div asp-validation-summary="ModelOnly"></div>
+
+			<input class="text" asp-for="UserName" placeholder="UserName" required="">
+			<span asp-validation-for="UserName" class="text-danger"></span>
+
+			<input class="text" asp-for="Password" placeholder="Password" required="">
+			<span asp-validation-for="Password" class="text-danger"></span>
+
+			<div class="wthree-text">
+				<label class="anim">
+					<input type="checkbox" asp-for="RememberMe" class="checkbox" >
+					<span>Remember Me</span>
+				</label>
+				<div class="clear"> </div>
+			</div>
+			<input type="submit" value="SignIn">
+		</form>
+		<p>Don't have an Account? <a href="SignUp"> SignUp Now!</a></p>
+	</div>
+</div>
+
+@section ValidationScripts {
+	<partial name="ValidationPartial" />
+}

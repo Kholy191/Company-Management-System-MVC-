@@ -33,5 +33,6 @@ namespace Kholy.IKEA.BLL.Models.Departments
         public Gender gender { get; set; }
         public EmpType EmployeeType { get; set; }
         public int? DepartmentId { get; set; }
+        public string? Image { get; set; }
     }
 }

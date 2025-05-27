@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using System.Threading.Tasks;
+using Kholy.IKEA.BLL.Common.Services.Attachments;
 using Kholy.IKEA.BLL.Models.Departments;
 using Kholy.IKEA.DAL.Common.Enums;
 using Kholy.IKEA.DAL.Contracts;
@@ -16,9 +17,11 @@ namespace Kholy.IKEA.BLL.Services.Employee
     public class EmployeeServices : IEmployeeServices
     {
         private readonly IUnitOfWork _unitOfWork;
-        public EmployeeServices(IUnitOfWork unitofwork)
+        private readonly IAttachmentService attachmentService;
+        public EmployeeServices(IUnitOfWork unitofwork , IAttachmentService _attachmentService)
         {
             _unitOfWork = unitofwork;
+            attachmentService = _attachmentService;
         }
 
         public int CreateEmployee(CreateEmployeeDTO employee)
@@ -42,7 +45,8 @@ namespace Kholy.IKEA.BLL.Services.Employee
                 gender = employee.gender,
                 EmployeeType = employee.EmployeeType,
                 DepartmentID = employee.DepartmentId,
-
+                HiringDate = employee.HiringDate,
+                Image = employee.Image != null ? attachmentService.Upload(employee.Image, "Images") : null,
             });
             return _unitOfWork.Complete();
         }
@@ -109,6 +113,7 @@ namespace Kholy.IKEA.BLL.Services.Employee
                 EmployeeType = employee.EmployeeType.ToString(),
                 gender = employee.gender.ToString(),
                 Department = employee.Department,
+                Image = employee.Image,
             };
 
         }
@@ -135,7 +140,8 @@ namespace Kholy.IKEA.BLL.Services.Employee
                         ID = _employee.ID,
                         LastModifiedBy = "Admin",
                         CreatedBy = "Admin",
-                        DepartmentID = _employee.DepartmentId
+                        DepartmentID = _employee.DepartmentId,
+                        Image = _employee.Image
 
                     });
                     return _unitOfWork.Complete();

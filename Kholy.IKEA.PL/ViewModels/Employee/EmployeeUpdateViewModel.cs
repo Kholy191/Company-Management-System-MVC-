@@ -23,5 +23,6 @@ namespace Kholy.IKEA.PL.ViewModels.Employee
         public required string gender { get; set; }
         public required EmpType EmployeeType { get; set; }
         public int? DepartmentId { get; set; }
+        public string? Image { get; set; }
     }
 }
